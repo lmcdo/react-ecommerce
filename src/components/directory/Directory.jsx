@@ -50,6 +50,7 @@ class Directory extends Component {
               title={section.title.toUpperCase()}
               imageUrl={section.imageUrl}
               size={section.size}
+              linkUrl={section.linkUrl}
             />
           );
         })}
