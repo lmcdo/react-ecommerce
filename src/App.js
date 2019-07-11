@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import HomePage from "./components/HomePage";
+import HomePage from "./pages/homepage/HomePage";
 
-import "./sass/homepage.scss";
+import "./App.css";
+import "./pages/homepage/homepage.scss";
 
 class App extends Component {
   render() {
