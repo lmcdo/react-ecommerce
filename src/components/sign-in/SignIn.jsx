@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-buttom/CustomButton";
+
+import { signInWithGoogle, signInWithGit } from "../../firebase/firebase";
 import "./signIn.scss";
 
 class SignIn extends Component {
@@ -41,6 +43,10 @@ class SignIn extends Component {
             required
           />
           <CustomButton type="submit">Sign In</CustomButton>
+          <CustomButton onClick={signInWithGoogle}>
+            Sign In with Google
+          </CustomButton>
+          <button className="btn-gitHub" onClick={signInWithGit} />
         </form>
       </div>
     );
