@@ -1,8 +1,10 @@
+// Dependências
 import React from "react";
 import { Link } from "react-router-dom";
-import { ReactComponent as Logo } from "../../assets/crown.svg";
-import { ReactComponent as Unknown } from "../../assets/user-solid.svg";
+import { auth } from "../../firebase/firebase";
+// CSS
 import "./header.scss";
+import { ReactComponent as Logo } from "../../assets/crown.svg";
 
 const Header = props => {
   console.log(props);
@@ -18,6 +20,15 @@ const Header = props => {
         <Link className="option" to="/shop">
           CONTACT
         </Link>
+        {props.currentUser ? (
+          <div className="option" onClick={() => auth.signOut()}>
+            SIGN OUT
+          </div>
+        ) : (
+          <Link to="/signin" className="option">
+            SIGN IN
+          </Link>
+        )}
         <caption className={props.userName === null ? "d-none" : "username"}>
           {props.userName}
         </caption>

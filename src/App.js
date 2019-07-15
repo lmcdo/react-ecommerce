@@ -40,6 +40,7 @@ class App extends Component {
         <Header
           profilePhoto={this.state.profilePhoto}
           userName={this.state.userName}
+          currentUser={this.state.currentUser}
         />
         <Switch>
           <Route exact path="/signin" component={Login} />
