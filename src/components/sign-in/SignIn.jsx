@@ -1,8 +1,10 @@
+// Dependências
 import React, { Component } from "react";
+import { auth, signInWithGoogle, signInWithGit } from "../../firebase/firebase";
+// Componentes
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-buttom/CustomButton";
-
-import { signInWithGoogle, signInWithGit } from "../../firebase/firebase";
+// CSS
 import "./signIn.scss";
 
 class SignIn extends Component {
@@ -10,9 +12,17 @@ class SignIn extends Component {
     email: "",
     password: ""
   };
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
+    const { email, password } = this.state;
     this.setState({ email: "", password: "" });
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: "", password: "" });
+    } catch (error) {
+      console.error(error);
+    }
   };
   handleChange = event => {
     const { value, name } = event.target;
