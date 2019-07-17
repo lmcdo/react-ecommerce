@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
+import { connect } from "react-redux";
 
 // Componentes
 import HomePage from "./pages/homepage/HomePage";
@@ -14,9 +15,6 @@ import "./App.css";
 import "./pages/homepage/homepage.scss";
 
 class App extends Component {
-  state = {
-    currentUser: null
-  };
   unsubscribeFromAuth = null;
 
   componentDidMount = () => {
@@ -41,13 +39,10 @@ class App extends Component {
   };
   render() {
     console.log(this.state);
+    console.log(this.props);
     return (
       <BrowserRouter>
-        <Header
-          profilePhoto={this.state.profilePhoto}
-          userName={this.state.userName}
-          currentUser={this.state.currentUser}
-        />
+        <Header />
         <Switch>
           <Route exact path="/signin" component={Login} />
           <Route exact path="/" component={HomePage} />
@@ -58,4 +53,7 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+});
+export default connect(mapStateToProps)(App);
