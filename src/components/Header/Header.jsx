@@ -10,7 +10,7 @@ import Cart from "../cart/Cart";
 import "./header.scss";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
-const Header = props => {
+const Header = ({ currentUser, hidden, userName }) => {
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -23,7 +23,7 @@ const Header = props => {
         <Link className="option" to="/shop">
           CONTACT
         </Link>
-        {props.currentUser ? (
+        {currentUser ? (
           <div
             className="option"
             onClick={() => auth.signOut().then(() => window.location.reload())}
@@ -35,18 +35,23 @@ const Header = props => {
             SIGN IN
           </Link>
         )}
-        <p className={props.userName === null ? "d-none" : "username"}>
-          {props.userName}
-        </p>
+        <p className={userName === null ? "d-none" : "username"}>{userName}</p>
+
         <CartIcon />
       </div>
-      <Cart />
+      {hidden ? null : <Cart />}
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+// Na linha abaixo, estou desestrutudando currentUser de dentro do user, e hidden de dentro de cart
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  /* 
+  currentUser: currentUser,
+  hidden: hidden
+  */
+  currentUser,
+  hidden
 });
 
 export default connect(mapStateToProps)(Header);
