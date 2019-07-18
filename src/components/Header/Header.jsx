@@ -3,12 +3,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { connect } from "react-redux";
+// Componentes
+import CartIcon from "../cart/CartIcon";
+import Cart from "../cart/Cart";
 // CSS
 import "./header.scss";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
 const Header = props => {
-  console.log("Props do Header", props);
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -33,17 +35,12 @@ const Header = props => {
             SIGN IN
           </Link>
         )}
-        <caption className={props.userName === null ? "d-none" : "username"}>
+        <p className={props.userName === null ? "d-none" : "username"}>
           {props.userName}
-        </caption>
-        {props.profilePhoto === null ? (
-          <div className="unknown" />
-        ) : (
-          <div className="foto-perfil">
-            <img src={props.profilePhoto} alt="Profile " />
-          </div>
-        )}
+        </p>
+        <CartIcon />
       </div>
+      <Cart />
     </div>
   );
 };
