@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
 import { connect } from "react-redux";
+// Redux
+import { setCurrentUser } from "./redux/user/userActions";
 
 // Componentes
 import HomePage from "./pages/homepage/HomePage";
@@ -18,19 +20,18 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount = () => {
+    const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
-          this.setState({
+          setCurrentUser({
             currentUser: { id: snapShot.id, ...snapShot.data() }
           });
         });
       } else {
-        this.setState({
-          currentUser: userAuth
-        });
+        setCurrentUser(userAuth);
       }
     });
   };
@@ -38,8 +39,6 @@ class App extends Component {
     this.unsubscribeFromAuth();
   };
   render() {
-    console.log(this.state);
-    console.log(this.props);
     return (
       <BrowserRouter>
         <Header />
@@ -53,7 +52,13 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+// mapDispatchToProps poderia ser implementado com Arrow Functions do ES6, mas desse jeito fica mais coêso.
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: function(user) {
+    dispatch(setCurrentUser(user));
+  }
 });
-export default connect(mapStateToProps)(App);
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);
