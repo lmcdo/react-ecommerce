@@ -1,6 +1,6 @@
 // Dependencias
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
 import { connect } from "react-redux";
 // Redux
@@ -43,7 +43,13 @@ class App extends Component {
       <BrowserRouter>
         <Header />
         <Switch>
-          <Route exact path="/signin" component={Login} />
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? <Redirect to="/" /> : <Login />
+            }
+          />
           <Route exact path="/" component={HomePage} />
           <Route exact path="/shop" component={ShopPage} />
         </Switch>
@@ -52,6 +58,9 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+});
 // mapDispatchToProps poderia ser implementado com Arrow Functions do ES6, mas desse jeito fica mais coêso.
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: function(user) {
@@ -59,6 +68,6 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);
